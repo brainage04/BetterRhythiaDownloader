@@ -1,0 +1,16 @@
+{
+  "name": "better-rhythia-downloader",
+  "private": false,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "build:zip": "node scripts/build-extension-zip.js",
+    "capture:store-screenshots": "node scripts/capture-rhythia-screenshots.js",
+    "check:downloads": "node scripts/check-download-parity.js",
+    "reload:extension": "node scripts/reload-extension.js",
+    "render:store-assets": "node scripts/render-store-assets.js"
+  },
+  "devDependencies": {
+    "chrome-remote-interface": "^0.33.3"
+  }
+}

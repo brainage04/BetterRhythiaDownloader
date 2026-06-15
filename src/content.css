@@ -1,0 +1,42 @@
+.brd-download-button {
+  position: absolute;
+  right: 8px;
+  top: 48px;
+  z-index: 20;
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: 9999px;
+  background: rgb(17 18 20 / 85%);
+  color: #fff;
+  cursor: pointer;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.brd-download-button:hover {
+  border-color: rgb(255 255 255 / 15%);
+  background: #2d2f33;
+  outline: none;
+}
+
+.brd-download-button svg {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.brd-download-button[data-brd-unavailable] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 520px) {
+  .brd-download-button {
+    top: 46px;
+  }
+}
