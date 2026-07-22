@@ -18,6 +18,17 @@ The button is added below the existing preview button on each map card. Clicking
 
 ## Development
 
+The development tooling requires Node.js `^20.19.0`, `^22.13.0`, or `>=24`.
+
+Install the development dependencies and run the lint and formatting checks with:
+
+```sh
+npm install
+npm run check
+```
+
+Use `npm run lint` or `npm run format:check` to run one check independently. Run `npm run format` to apply Prettier formatting.
+
 The extension itself has no build step. After editing files, reload the unpacked extension in `chrome://extensions`, or run:
 
 ```sh

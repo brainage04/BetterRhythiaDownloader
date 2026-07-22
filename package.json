@@ -3,14 +3,25 @@
   "private": false,
   "version": "1.0.0",
   "type": "commonjs",
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
   "scripts": {
     "build:zip": "node scripts/build-extension-zip.js",
     "capture:store-screenshots": "node scripts/capture-rhythia-screenshots.js",
+    "check": "npm run lint && npm run format:check",
     "check:downloads": "node scripts/check-download-parity.js",
+    "format": "prettier --write . --ignore-unknown",
+    "format:check": "prettier --check . --ignore-unknown",
+    "lint": "eslint .",
     "reload:extension": "node scripts/reload-extension.js",
     "render:store-assets": "node scripts/render-store-assets.js"
   },
   "devDependencies": {
-    "chrome-remote-interface": "^0.33.3"
+    "@eslint/js": "^10.0.1",
+    "chrome-remote-interface": "^0.33.3",
+    "eslint": "^10.7.0",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.6"
   }
 }

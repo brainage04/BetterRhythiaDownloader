@@ -6,7 +6,8 @@ const path = require("path");
 const CDP = require("chrome-remote-interface");
 
 const root = path.resolve(__dirname, "..");
-const targetUrl = process.env.RHYTHIA_MAPS_URL ||
+const targetUrl =
+  process.env.RHYTHIA_MAPS_URL ||
   "https://www.rhythia.com/maps?filter=&status=RANKED&minStars=3&maxStars=5&author=&tags=&sort=newest&sortDirection=desc&page=2";
 const viewport = {
   width: 1280,
@@ -57,10 +58,7 @@ async function waitForChrome(port, timeoutMs = 10000) {
 async function waitForExit(process, timeoutMs = 5000) {
   if (process.exitCode !== null || process.signalCode !== null) return;
 
-  await Promise.race([
-    once(process, "exit"),
-    delay(timeoutMs)
-  ]);
+  await Promise.race([once(process, "exit"), delay(timeoutMs)]);
 }
 
 async function evaluate(Runtime, expression) {
@@ -98,8 +96,9 @@ async function waitFor(Runtime, predicate, timeoutMs = 15000, ...args) {
 }
 
 function dismissRhythiaModal() {
-  const button = Array.from(document.querySelectorAll("button"))
-    .find((candidate) => candidate.textContent.trim() === "Dismiss");
+  const button = Array.from(document.querySelectorAll("button")).find(
+    (candidate) => candidate.textContent.trim() === "Dismiss"
+  );
 
   if (button) button.click();
   return Boolean(button);
@@ -112,12 +111,18 @@ function installContentStyle(css) {
 }
 
 function hasInjectedDownloadButton() {
-  return Boolean(document.querySelector('[data-brd-download-button]:not([data-brd-download-url=""])'));
+  return Boolean(
+    document.querySelector('[data-brd-download-button]:not([data-brd-download-url=""])')
+  );
 }
 
 function firstInjectedDownload() {
-  const button = document.querySelector('[data-brd-download-button]:not([data-brd-download-url=""])');
-  const card = button?.closest('a[href^="/maps/"], a[href^="https://www.rhythia.com/maps/"], a[href^="https://rhythia.com/maps/"]');
+  const button = document.querySelector(
+    '[data-brd-download-button]:not([data-brd-download-url=""])'
+  );
+  const card = button?.closest(
+    'a[href^="/maps/"], a[href^="https://www.rhythia.com/maps/"], a[href^="https://rhythia.com/maps/"]'
+  );
 
   if (!button || !card) return null;
 
@@ -148,18 +153,22 @@ async function main() {
   const chrome = findChrome();
   const port = 9400 + Math.floor(Math.random() * 1000);
   const profileDir = fs.mkdtempSync(path.join(os.tmpdir(), "brd-check-"));
-  const chromeProcess = spawn(chrome, [
-    "--headless=new",
-    "--disable-gpu",
-    "--hide-scrollbars",
-    "--no-sandbox",
-    `--remote-debugging-port=${port}`,
-    `--user-data-dir=${profileDir}`,
-    `--window-size=${viewport.width},${viewport.height}`,
-    "about:blank"
-  ], {
-    stdio: "ignore"
-  });
+  const chromeProcess = spawn(
+    chrome,
+    [
+      "--headless=new",
+      "--disable-gpu",
+      "--hide-scrollbars",
+      "--no-sandbox",
+      `--remote-debugging-port=${port}`,
+      `--user-data-dir=${profileDir}`,
+      `--window-size=${viewport.width},${viewport.height}`,
+      "about:blank"
+    ],
+    {
+      stdio: "ignore"
+    }
+  );
 
   let client;
 
@@ -221,7 +230,7 @@ async function main() {
         maxRetries: 5,
         retryDelay: 200
       });
-    } catch (error) {
+    } catch {
       console.warn(`Could not remove temporary Chrome profile: ${profileDir}`);
     }
   }

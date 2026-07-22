@@ -6,7 +6,8 @@ const path = require("path");
 const CDP = require("chrome-remote-interface");
 
 const root = path.resolve(__dirname, "..");
-const targetUrl = "https://www.rhythia.com/maps?filter=&status=RANKED&minStars=3&maxStars=5&author=&tags=&sort=newest&sortDirection=desc&page=2";
+const targetUrl =
+  "https://www.rhythia.com/maps?filter=&status=RANKED&minStars=3&maxStars=5&author=&tags=&sort=newest&sortDirection=desc&page=2";
 const captureDir = path.join(root, "store-assets", "rhythia-captures");
 const captureLayout = {
   cardCount: 3,
@@ -68,10 +69,7 @@ async function waitForChrome(port, timeoutMs = 10000) {
 async function waitForExit(process, timeoutMs = 5000) {
   if (process.exitCode !== null || process.signalCode !== null) return;
 
-  await Promise.race([
-    once(process, "exit"),
-    delay(timeoutMs)
-  ]);
+  await Promise.race([once(process, "exit"), delay(timeoutMs)]);
 }
 
 async function evaluate(Runtime, expression) {
@@ -113,8 +111,9 @@ function hasMapCards() {
 }
 
 function dismissRhythiaModal() {
-  const button = Array.from(document.querySelectorAll("button"))
-    .find((candidate) => candidate.textContent.trim() === "Dismiss");
+  const button = Array.from(document.querySelectorAll("button")).find(
+    (candidate) => candidate.textContent.trim() === "Dismiss"
+  );
 
   if (button) button.click();
   return Boolean(button);
@@ -130,21 +129,30 @@ function scrollToCards(layout) {
 }
 
 function visibleCardImagesLoaded(layout) {
-  const cards = Array.from(document.querySelectorAll('a[href^="/maps/"]'))
-    .filter((card) => {
-      const rect = card.getBoundingClientRect();
-      return rect.bottom > 0 && rect.top < window.innerHeight;
-    });
+  const cards = Array.from(document.querySelectorAll('a[href^="/maps/"]')).filter((card) => {
+    const rect = card.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < window.innerHeight;
+  });
 
   const images = cards.flatMap((card) => Array.from(card.querySelectorAll("img")));
-  return images.length >= layout.visibleImageCount &&
-    images.slice(0, layout.visibleImageCount).every((image) => image.complete && image.naturalWidth > 0);
+  return (
+    images.length >= layout.visibleImageCount &&
+    images
+      .slice(0, layout.visibleImageCount)
+      .every((image) => image.complete && image.naturalWidth > 0)
+  );
 }
 
 function getCardClip(layout) {
   const visibleCards = Array.from(document.querySelectorAll('a[href^="/maps/"]'))
     .map((card) => ({ rect: card.getBoundingClientRect() }))
-    .filter(({ rect }) => rect.width > layout.minCardSize && rect.height > layout.minCardSize && rect.bottom > 0 && rect.top < window.innerHeight)
+    .filter(
+      ({ rect }) =>
+        rect.width > layout.minCardSize &&
+        rect.height > layout.minCardSize &&
+        rect.bottom > 0 &&
+        rect.top < window.innerHeight
+    )
     .sort((a, b) => a.rect.top - b.rect.top || a.rect.left - b.rect.left);
 
   const firstRowTop = visibleCards[0]?.rect.top;
@@ -159,7 +167,9 @@ function getCardClip(layout) {
   const firstRect = first.rect;
   const secondRect = second.rect;
   const gap = Math.max(0, secondRect.left - firstRect.right);
-  const width = Math.round((firstRect.width * layout.cardCount) + (gap * (layout.cardCount - 1)) + layout.widthPadding);
+  const width = Math.round(
+    firstRect.width * layout.cardCount + gap * (layout.cardCount - 1) + layout.widthPadding
+  );
   const top = Math.max(0, firstRect.top + window.scrollY - layout.topPadding);
   const left = Math.max(0, firstRect.left + window.scrollX - layout.leftPadding);
 
@@ -218,18 +228,22 @@ async function main() {
   const chrome = findChrome();
   const port = 9300 + Math.floor(Math.random() * 1000);
   const profileDir = fs.mkdtempSync(path.join(os.tmpdir(), "brd-chrome-"));
-  const chromeProcess = spawn(chrome, [
-    "--headless=new",
-    "--disable-gpu",
-    "--hide-scrollbars",
-    "--no-sandbox",
-    `--remote-debugging-port=${port}`,
-    `--user-data-dir=${profileDir}`,
-    `--window-size=${viewport.width},${viewport.height}`,
-    "about:blank"
-  ], {
-    stdio: "ignore"
-  });
+  const chromeProcess = spawn(
+    chrome,
+    [
+      "--headless=new",
+      "--disable-gpu",
+      "--hide-scrollbars",
+      "--no-sandbox",
+      `--remote-debugging-port=${port}`,
+      `--user-data-dir=${profileDir}`,
+      `--window-size=${viewport.width},${viewport.height}`,
+      "about:blank"
+    ],
+    {
+      stdio: "ignore"
+    }
+  );
 
   let client;
 
@@ -279,7 +293,7 @@ async function main() {
         maxRetries: 5,
         retryDelay: 200
       });
-    } catch (error) {
+    } catch {
       console.warn(`Could not remove temporary Chrome profile: ${profileDir}`);
     }
   }

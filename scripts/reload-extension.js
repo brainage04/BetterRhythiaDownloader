@@ -34,9 +34,7 @@ function reloadExtensionInPage(extensionId, extensionName) {
     const id = candidate.getAttribute("id") || candidate.id || "";
     const name = candidate.shadowRoot?.querySelector("#name")?.innerText || "";
 
-    return extensionId
-      ? id === extensionId
-      : name === extensionName;
+    return extensionId ? id === extensionId : name === extensionName;
   });
 
   if (!item) {
@@ -90,7 +88,9 @@ async function main() {
     });
 
     if (result.exceptionDetails) {
-      throw new Error(result.exceptionDetails.text || "Failed to evaluate extension reload script.");
+      throw new Error(
+        result.exceptionDetails.text || "Failed to evaluate extension reload script."
+      );
     }
 
     const reloadResult = result.result.value;
