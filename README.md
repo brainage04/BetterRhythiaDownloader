@@ -18,9 +18,13 @@ To load it unpacked instead, from a clone of this repository or the unzipped zip
 4. Select the extension folder.
 5. Visit a Rhythia maps listing page and dismiss any site modal if it is covering the page.
 
+## Using it
+
 The button is added below the existing preview button on each map card. Clicking it opens the same `.sspm` file URL exposed by Rhythia's map listing API, matching the behavior of Rhythia's map detail pages.
 
-## Development
+## For developers
+
+### Development
 
 The development tooling requires Node.js `^20.19.0`, `^22.13.0`, or `>=24`.
 
@@ -66,7 +70,7 @@ npm run build:zip
 
 This writes `dist/better-rhythia-downloader-1.0.0.zip` with only the runtime extension files.
 
-## Files
+### Files
 
 - `manifest.json`: Chrome extension manifest.
 - `icons/`: Extension icon source and generated PNG assets.
