@@ -6,12 +6,16 @@ The extension reads Rhythia's public map listing API for the current maps page, 
 
 See [PRIVACY.md](./PRIVACY.md) for the privacy policy.
 
-## Load in Chrome
+## Install in Chrome
+
+Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/better-rhythia-downloader/aoalaggfboinbjaapbhfpebicmgpflbf), then visit a Rhythia maps listing page and dismiss any site modal if it is covering the page.
+
+To load it unpacked instead, from a clone of this repository or the unzipped zip on the [Releases](https://github.com/brainage04/BetterRhythiaDownloader/releases) page:
 
 1. Open `chrome://extensions`.
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
-4. Select this folder.
+4. Select the extension folder.
 5. Visit a Rhythia maps listing page and dismiss any site modal if it is covering the page.
 
 The button is added below the existing preview button on each map card. Clicking it opens the same `.sspm` file URL exposed by Rhythia's map listing API, matching the behavior of Rhythia's map detail pages.
